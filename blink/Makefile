@@ -1,8 +1,8 @@
 
 chip.bin: chip.v blink.v upduino_v2.pcf
-	yosys -q -p "synth_ice40 -blif chip.blif" chip.v blink.v
-	arachne-pnr -d 5k -P sg48 -p upduino_v2.pcf chip.blif -o chip.txt
-	icepack chip.txt chip.bin
+	yosys -q -p "synth_ice40 -json chip.json" chip.v blink.v
+	nextpnr-ice40 --up5k --pcf upduino_v2.pcf --json chip.json --asc chip.asc
+	icepack chip.asc chip.bin
 
 .PHONY: flash
 flash:
